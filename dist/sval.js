@@ -1802,7 +1802,8 @@
           }
           obj = obj[PRIVATE];
       }
-      if (node.value.type === 'FunctionExpression' || node.value.type === 'ArrowFunctionExpression') {
+      if (node.value
+          && (node.value.type === 'FunctionExpression' || node.value.type === 'ArrowFunctionExpression')) {
           obj[key] = createFunc$1(node.value, subScope, { superClass: superClass });
       }
       else {
@@ -3789,7 +3790,8 @@
                       }
                       obj = obj[PRIVATE];
                   }
-                  if (!(node.value.type === 'FunctionExpression' || node.value.type === 'ArrowFunctionExpression')) return [3, 4];
+                  if (!(node.value
+                      && (node.value.type === 'FunctionExpression' || node.value.type === 'ArrowFunctionExpression'))) return [3, 4];
                   obj[key] = createFunc(node.value, subScope, { superClass: superClass });
                   return [3, 6];
               case 4:
