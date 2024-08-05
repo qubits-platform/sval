@@ -192,7 +192,8 @@ export function* PropertyDefinition(node: acorn.PropertyDefinition, scope: Scope
     obj = obj[PRIVATE]
   }
 
-  if (node.value.type === 'FunctionExpression' || node.value.type === 'ArrowFunctionExpression') {
+  if (node.value
+      && (node.value.type === 'FunctionExpression' || node.value.type === 'ArrowFunctionExpression')) {
     obj[key] = createFunc(node.value, subScope, { superClass })
   } else {
     obj[key] = yield* evaluate(node.value, subScope)

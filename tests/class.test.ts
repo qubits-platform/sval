@@ -51,6 +51,36 @@ describe('testing src/index.ts', () => {
     expect(interpreter.exports.inst1.constructor).toBe(interpreter.exports.inst2.constructor)
   })
 
+  it('should create es6 class with un-initialized variables normally', () => {
+    const interpreter = new Sval()
+    interpreter.run(`
+      class Point {
+        x;
+        y;
+        constructor(x, y) {
+          this.x = x
+          this.y = y
+        }
+      
+        toString() {
+          return '(' + this.x + ', ' + this.y + ')'
+        }
+      }
+      
+      exports.inst = new Point(1, 2)
+      exports.cls = Point
+      exports.inst1 = new Point()
+      exports.inst2 = new Point()
+    `)
+
+    expect(interpreter.exports.cls).toBe(interpreter.exports.cls.prototype.constructor)
+    expect(interpreter.exports.inst.x).toBe(1)
+    expect(interpreter.exports.inst.y).toBe(2)
+    expect(interpreter.exports.inst.toString()).toBe('(1, 2)')
+    expect(interpreter.exports.inst1.__proto__).toBe(interpreter.exports.inst2.__proto__)
+    expect(interpreter.exports.inst1.constructor).toBe(interpreter.exports.inst2.constructor)
+  })
+
   it('should create class with getter/setter normally', () => {
     const interpreter = new Sval()
     interpreter.run(`
